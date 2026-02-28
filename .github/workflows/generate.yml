@@ -28,3 +28,5 @@ jobs:
           git add invaders.svg
           git commit -m "update invaders svg" || echo "No changes"
           git push
+          git commit -m "update invaders svg" || echo "No changes"
+          git push
