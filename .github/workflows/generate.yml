@@ -1,20 +1,33 @@
 name: Generate Invaders SVG
 
 on:
+  workflow_dispatch:
   schedule:
     - cron: "0 0 * * *"
-  workflow_dispatch:
 
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v3
-      - run: npm install node-fetch
-      - run: node generator.js
-      - run: |
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: "18"
+
+      - name: Install deps
+        run: npm install
+
+      - name: Run generator
+        run: node generator.js
+
+      - name: Commit SVG
+        run: |
           git config user.name "github-actions"
           git config user.email "actions@github.com"
           git add invaders.svg
-          git commit -m "update invaders animation"
+          git commit -m "update invaders svg" || echo "No changes"
           git push
